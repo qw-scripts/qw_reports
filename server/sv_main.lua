@@ -9,16 +9,79 @@ local function uuid()
     end)
 end
 
+local function buildDiscordMessage(reportingPlayerId, reportData)
+    local message = '**Identifiers:** \n\n'
+
+    for _, v in pairs(GetPlayerIdentifiers(reportingPlayerId)) do
+        if string.sub(v, 1, string.len("steam:")) == "steam:" then
+            message = message .. '**SteamID: **' .. '||' .. v .. '||' .. '\n'
+        elseif string.sub(v, 1, string.len("license:")) == "license:" then
+            message = message .. '**License: **' .. '||' .. v .. '||' .. '\n'
+        elseif string.sub(v, 1, string.len("xbl:")) == "xbl:" then
+            message = message .. '**XBL: **' .. '||' .. v .. '||' .. '\n'
+        elseif string.sub(v, 1, string.len("ip:")) == "ip:" then
+            message = message .. '**IP: **' .. '||' .. v .. '||' .. '\n'
+        elseif string.sub(v, 1, string.len("discord:")) == "discord:" then
+            message = message .. '**Discord: **' .. '||' .. v .. '||' .. '\n'
+        elseif string.sub(v, 1, string.len("live:")) == "live:" then
+            message = message .. '**Live: **' .. '||' .. v .. '||' .. '\n'
+        end
+    end
+
+    message = message .. '\n' .. '**Report Details:** \n\n'
+
+    message = message .. 'Report Title: ' .. '**' .. reportData.report_title .. '**' .. '\n'
+    message = message .. 'Report Details: ' .. '**' .. reportData.report_details .. '**' .. '\n'
+    message = message .. 'Report ID: ' .. '**' .. reportData.report_id .. '**' .. '\n'
+
+    return message
+end
+
+local function sendDiscordNotification(reportingPlayerId, reportData)
+    local message = buildDiscordMessage(reportingPlayerId, reportData)
+    local playerName = GetPlayerName(reportingPlayerId)
+
+    local embedData = {
+        ['title'] = 'Report from ' .. playerName .. ' (' .. tostring(reportingPlayerId) .. ')',
+        ['type'] = 'rich',
+        ['color'] = 9807270,
+        ['footer'] = {
+            ['text'] = os.date('%c'),
+        },
+        ['description'] = message,
+        ['author'] = {
+            ['name'] = 'Reporting System',
+            ['icon_url'] = Config.Webhook.webnhookImage,
+        },
+    }
+    PerformHttpRequest(Config.Webhook.webhookUrl, function(err, text, headers) end, 'POST',
+        json.encode({ username = 'Reporting System', embeds = { embedData }, avatar_url = Config.Webhook.webnhookImage })
+        ,
+        { ['Content-Type'] = 'application/json' })
+
+end
+
 RegisterNetEvent('qw_reports:server:createReport', function(data)
     local src = source
+    local reportId = uuid()
 
     reports[#reports + 1] = {
         report_title = data.name,
         report_discord_name = data.discord,
         report_details = data.detail,
         report_src = src,
-        report_id = uuid()
+        report_id = reportId
     }
+
+    if Config.Webhook.enabled then
+        sendDiscordNotification(src, {
+            report_title = data.name,
+            report_discord_name = data.discord,
+            report_details = data.detail,
+            report_src = src,
+            report_id = reportId
+        })
+    end
 end)
 
 RegisterNetEvent('qw_reports:server:deleteReport', function(data)
