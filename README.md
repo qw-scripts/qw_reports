@@ -23,7 +23,3 @@ make sure to configure your ace permssion name in the config file that you use f
 ## Contributors
 
 [Panther](https://github.com/PantherBruv) - Notifications for Reports
-
-## Beware
-
-There is nothing fancy setup for notifications yet (discord stuff coming soon) so you might want to add in your respective notification system for the time being.
