@@ -1,5 +1,6 @@
 local reports = {}
 
+-- yoinked from here: https://gist.github.com/jrus/3197011
 local function uuid()
     local template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function(c)

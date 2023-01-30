@@ -14,28 +14,14 @@
     report_id: string;
   }
 
-  let reports: Report[] = [
-    {
-      report_title: "Test Report",
-      report_discord_name: "Test Name",
-      report_details: "Test Details",
-      report_src: 1,
-      report_id: "1",
-    },
-    {
-      report_title: "Test Report",
-      report_discord_name: "Test Name",
-      report_details: "Test Details",
-      report_src: 1,
-      report_id: "2",
-    },
-  ];
+  let reports: Report[] = [];
 
-  async function concludeReport(reportID: string) {
+  async function concludeReport(reportID: string, reportSrc: number) {
     if (isEnvBrowser()) return;
 
     const response = await useFetchNui("reports/DeleteReport", {
       report_id: reportID,
+      report_src: reportSrc,
     });
 
     if (response === "ok") {
@@ -117,7 +103,8 @@
             </button>
             <button
               class="border border-gray-500 bg-gray-600 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-500 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
-              on:click={() => concludeReport(report.report_id)}
+              on:click={() =>
+                concludeReport(report.report_id, report.report_src)}
             >
               Conclude Report
             </button>
