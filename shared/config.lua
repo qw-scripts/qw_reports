@@ -4,7 +4,9 @@ Config.AcePermName = 'command'
 
 Config.ReportTypes = { -- Fill out your own custom report types
     "Player Report",
-    "Bug Report"
+    "Bug Report",
+    "Staff Report",
+    "Other"
 }
 
 Config.Webhook = {

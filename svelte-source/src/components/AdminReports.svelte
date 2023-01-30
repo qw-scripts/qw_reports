@@ -111,12 +111,12 @@
         </p>
         <div class="flex gap-2 items-center justify-between mt-3">
           <div>
-            <button
+            <!-- <button
               class="border border-gray-500 bg-gray-600 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-500 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
               on:click={() => openChat(report.report_id)}
             >
               Open Chat
-            </button>
+            </button> -->
           </div>
           <div class="flex gap-2 items-center">
             <button

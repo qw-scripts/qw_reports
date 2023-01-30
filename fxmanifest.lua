@@ -6,7 +6,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'qw-scripts'
-version '0.1.0'
+version '0.2.0'
 description 'standalone reporting system for FiveM'
 
 lua54 'yes'
