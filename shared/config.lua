@@ -1,6 +1,15 @@
 Config = {}
 
+-- Permissions
+
 Config.AcePermName = 'command'
+
+-- Commands
+
+Config.CreateReportCommand = 'report'
+Config.ViewReportsMenu = 'view-reports'
+
+-- Report Types
 
 Config.ReportTypes = { -- Fill out your own custom report types
     "Player Report",
@@ -8,6 +17,8 @@ Config.ReportTypes = { -- Fill out your own custom report types
     "Staff Report",
     "Other"
 }
+
+-- Webhook Stuff
 
 Config.Webhook = {
     enabled = false,

@@ -1,11 +1,11 @@
 -- COMMANDS --
 
-RegisterCommand('report', function()
+RegisterCommand(Config.CreateReportCommand, function()
     SendNUIMessage({ action = 'setVisible', data = { show = true, type = 'user' } })
     SetNuiFocus(true, true)
 end, false)
 
-RegisterCommand('view-reports', function()
+RegisterCommand(Config.ViewReportsMenu, function()
     lib.callback('qw_reports:server:checkPerms', false, function(allowed)
         if allowed then
             SendNUIMessage({ action = 'setVisible', data = { show = true, type = 'admin' } })
