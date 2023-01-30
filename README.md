@@ -14,7 +14,7 @@ make sure to configure your ace permssion name in the config file that you use f
 
 ## Requirements
 
-- [ox_lib](https://github.com/overextended/ox_lib) - for callbacks to work
+- [ox_lib](https://github.com/overextended/ox_lib) - for callbacks to work and for notifications
 
 ## Preview
 
