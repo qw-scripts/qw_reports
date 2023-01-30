@@ -3,19 +3,27 @@
   import { useFetchNui } from "@hooks/useFetchNui";
   import { onMount } from "svelte";
   import { visibility } from "@store/visibility";
+  import AdminReports from "@components/AdminReports.svelte";
+  import NewReport from "@components/NewReport.svelte";
 
   let isVisible: boolean;
+  let currentAccess: string;
+
   visibility.subscribe((visible) => {
-    isVisible = visible;
+    isVisible = visible.show;
+    currentAccess = visible.type;
   });
-  useNuiEvent<boolean>("setVisible", (visible) => {
-    visibility.set(visible);
-  });
+  useNuiEvent<{ show: boolean; type: "admin" | "user" }>(
+    "setVisible",
+    (data: { show: boolean; type: "admin" | "user" }) => {
+      visibility.set({ show: data.show, type: data.type });
+    }
+  );
   onMount(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (isVisible && ["Escape"].includes(e.code)) {
         useFetchNui("hideUI");
-        visibility.set(false);
+        visibility.set({ show: false, type: "user" });
       }
     };
     window.addEventListener("keydown", keyHandler);
@@ -25,6 +33,10 @@
 
 <main>
   {#if isVisible}
-    <slot />
+    {#if currentAccess === "admin"}
+      <AdminReports />
+    {:else}
+      <NewReport />
+    {/if}
   {/if}
 </main>

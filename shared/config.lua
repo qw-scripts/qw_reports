@@ -1,0 +1,3 @@
+Config = {}
+
+Config.AcePermName = 'command'
