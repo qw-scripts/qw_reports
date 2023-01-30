@@ -14,7 +14,16 @@ RegisterCommand('view-reports', function()
     end)
 end, false)
 
--- REPORTING CALLBACKS --
+-- REPORTING CALLBACKS AND EVENTS --
+
+RegisterNetEvent('qw_reports:client:sendNotification', function()
+    lib.notify({
+        title = 'Reports',
+        description = 'new report has been submitted...',
+        type = 'info',
+        icon = 'flag'
+    })
+end)
 
 RegisterNUICallback('reports/CreateReport', function(data, cb)
     TriggerServerEvent('qw_reports:server:createReport', data)

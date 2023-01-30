@@ -9,6 +9,14 @@ local function uuid()
     end)
 end
 
+local function sendNotificationToStaff()
+    for _, playerId in ipairs(GetPlayers()) do
+        if IsPlayerAceAllowed(playerId, Config.AcePermName) then
+            TriggerClientEvent('qw_reports:client:sendNotification', playerId)
+        end
+    end
+end
+
 local function buildDiscordMessage(reportingPlayerId, reportData)
     local message = '**Identifiers:** \n\n'
 
@@ -82,6 +90,8 @@ RegisterNetEvent('qw_reports:server:createReport', function(data)
             report_id = reportId
         })
     end
+
+    sendNotificationToStaff()
 end)
 
 RegisterNetEvent('qw_reports:server:deleteReport', function(data)

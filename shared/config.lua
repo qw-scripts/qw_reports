@@ -2,7 +2,7 @@ Config = {}
 
 Config.AcePermName = 'command'
 Config.Webhook = {
-    enabled = true,
+    enabled = false,
     webhookUrl = '', -- PUT YOUR WEBHOOK URL HERE
     webnhookImage = '' -- PUT YOUR WEBHOOK IMAGE HERE
 }
