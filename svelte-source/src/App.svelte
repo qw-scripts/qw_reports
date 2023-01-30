@@ -7,7 +7,7 @@
       action: "setVisible",
       data: {
         show: true,
-        type: "user",
+        type: "admin",
       },
     },
   ]);

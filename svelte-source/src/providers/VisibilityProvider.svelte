@@ -5,6 +5,7 @@
   import { visibility } from "@store/visibility";
   import AdminReports from "@components/AdminReports.svelte";
   import NewReport from "@components/NewReport.svelte";
+  import Chat from "@components/Chat.svelte";
 
   let isVisible: boolean;
   let currentAccess: string;
@@ -13,9 +14,9 @@
     isVisible = visible.show;
     currentAccess = visible.type;
   });
-  useNuiEvent<{ show: boolean; type: "admin" | "user" }>(
+  useNuiEvent<{ show: boolean; type: "admin" | "user" | "chat" }>(
     "setVisible",
-    (data: { show: boolean; type: "admin" | "user" }) => {
+    (data: { show: boolean; type: "admin" | "user" | "chat" }) => {
       visibility.set({ show: data.show, type: data.type });
     }
   );
@@ -35,8 +36,10 @@
   {#if isVisible}
     {#if currentAccess === "admin"}
       <AdminReports />
-    {:else}
+    {:else if currentAccess === "user"}
       <NewReport />
+    {:else}
+      <Chat />
     {/if}
   {/if}
 </main>

@@ -1,5 +1,7 @@
 <script lang="ts">
   import { useFetchNui } from "@hooks/useFetchNui";
+  import { visibility } from "@store/visibility";
+  import { isEnvBrowser } from "@utils/misc";
   import { onMount } from "svelte";
   import { cubicOut, cubicIn } from "svelte/easing";
   import { fade } from "svelte/transition";
@@ -12,9 +14,26 @@
     report_id: string;
   }
 
-  let reports: Report[] = [];
+  let reports: Report[] = [
+    {
+      report_title: "Test Report",
+      report_discord_name: "Test Name",
+      report_details: "Test Details",
+      report_src: 1,
+      report_id: "1",
+    },
+    {
+      report_title: "Test Report",
+      report_discord_name: "Test Name",
+      report_details: "Test Details",
+      report_src: 1,
+      report_id: "2",
+    },
+  ];
 
   async function concludeReport(reportID: string) {
+    if (isEnvBrowser()) return;
+
     const response = await useFetchNui("reports/DeleteReport", {
       report_id: reportID,
     });
@@ -24,7 +43,14 @@
     }
   }
 
+  function openChat(reportID: string) {
+    console.log(reportID);
+    visibility.set({ show: true, type: "chat" });
+  }
+
   onMount(async () => {
+    if (isEnvBrowser()) return;
+
     const currentReports = await useFetchNui<Report[] | []>(
       "reports/GetReports"
     );
@@ -69,12 +95,34 @@
         <p class="text-gray-100 text-sm mt-2">
           {report.report_details}
         </p>
-        <button
-          class="self-end border border-gray-500 bg-gray-600 px-3 py-2 rounded-md shadow-md mt-2 font-medium hover:bg-gray-500 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
-          on:click={() => concludeReport(report.report_id)}
-        >
-          Conclude Report
-        </button>
+        <div class="flex gap-2 items-center justify-between mt-3">
+          <div>
+            <button
+              class="border border-gray-500 bg-gray-600 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-500 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+              on:click={() => openChat(report.report_id)}
+            >
+              Open Chat
+            </button>
+          </div>
+          <div class="flex gap-2 items-center">
+            <button
+              class="border border-gray-700 bg-gray-800 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-800/80 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+            >
+              Bring Player
+            </button>
+            <button
+              class="border border-gray-700 bg-gray-800 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-800/80 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+            >
+              Goto Player
+            </button>
+            <button
+              class="border border-gray-500 bg-gray-600 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-500 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+              on:click={() => concludeReport(report.report_id)}
+            >
+              Conclude Report
+            </button>
+          </div>
+        </div>
       </div>
     {/each}
   </div>
