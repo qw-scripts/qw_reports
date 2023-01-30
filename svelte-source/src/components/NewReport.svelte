@@ -1,20 +1,23 @@
 <script lang="ts">
   import { useFetchNui } from "@hooks/useFetchNui";
   import { visibility } from "@store/visibility";
+  import { onMount } from "svelte";
   import { cubicOut, cubicIn } from "svelte/easing";
   import { fade } from "svelte/transition";
 
-  let report: { name: string; discord: string; detail: string } = {
+  let report: { name: string; report_type: string; detail: string } = {
     name: "",
-    discord: "",
+    report_type: "",
     detail: "",
   };
 
   let isSubmitting: boolean = false;
   let error: boolean = false;
 
+  let reportTypes: string[] = [];
+
   async function submitReport() {
-    if (report.name !== "" && report.discord !== "" && report.detail !== "") {
+    if (report.name !== "" && report.detail !== "") {
       isSubmitting = true;
       const response = await useFetchNui("reports/CreateReport", report);
 
@@ -22,7 +25,7 @@
         isSubmitting = false;
         report = {
           name: "",
-          discord: "",
+          report_type: reportTypes[0],
           detail: "",
         };
         useFetchNui("hideUI");
@@ -36,6 +39,15 @@
       }, 1500);
     }
   }
+
+  onMount(async () => {
+    const response = await useFetchNui("reports/GetReportTypes");
+
+    if (response) {
+      reportTypes = response;
+      report.report_type = reportTypes[0];
+    }
+  });
 </script>
 
 <div
@@ -62,15 +74,18 @@
       />
     </div>
     <div class="w-3/4 flex flex-col gap-2">
-      <label for="discord-id" class="font-medium text-sm">Discord ID</label>
-      <input
-        bind:value={report.discord}
-        type="text"
-        placeholder="qwadebot#0001"
+      <label for="report-type" class="font-medium text-sm">Report Type</label>
+      <select
+        name="report-type"
         class="border-2 bg-gray-700 px-3 py-2 rounded-md shadow-md {error
           ? 'border-red-500'
           : 'border-gray-600'}"
-      />
+        bind:value={report.report_type}
+      >
+        {#each reportTypes as type}
+          <option value={type}>{type}</option>
+        {/each}
+      </select>
     </div>
     <div class="w-3/4 flex flex-col gap-2">
       <label for="report-details" class="font-medium text-sm"

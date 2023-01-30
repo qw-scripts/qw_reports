@@ -40,6 +40,7 @@ local function buildDiscordMessage(reportingPlayerId, reportData)
 
     message = message .. 'Report Title: ' .. '**' .. reportData.report_title .. '**' .. '\n'
     message = message .. 'Report Details: ' .. '**' .. reportData.report_details .. '**' .. '\n'
+    message = message .. 'Report Type: ' .. '**' .. reportData.report_type .. '**' .. '\n'
     message = message .. 'Report ID: ' .. '**' .. reportData.report_id .. '**' .. '\n'
 
     return message
@@ -75,8 +76,8 @@ RegisterNetEvent('qw_reports:server:createReport', function(data)
 
     reports[#reports + 1] = {
         report_title = data.name,
-        report_discord_name = data.discord,
         report_details = data.detail,
+        report_type = data.report_type,
         report_src = src,
         report_id = reportId
     }
@@ -84,8 +85,8 @@ RegisterNetEvent('qw_reports:server:createReport', function(data)
     if Config.Webhook.enabled then
         sendDiscordNotification(src, {
             report_title = data.name,
-            report_discord_name = data.discord,
             report_details = data.detail,
+            report_type = data.report_type,
             report_src = src,
             report_id = reportId
         })

@@ -43,6 +43,10 @@ RegisterNUICallback('reports/GetReports', function(_, cb)
     end)
 end)
 
+RegisterNUICallback('reports/GetReportTypes', function(_, cb)
+    cb(Config.ReportTypes)
+end)
+
 -- REPORTING ACTIONS CALLBACKS --
 
 RegisterNUICallback('actions/actionHandler', function(data, cb)

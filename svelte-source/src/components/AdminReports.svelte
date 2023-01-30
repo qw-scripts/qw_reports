@@ -8,8 +8,8 @@
 
   interface Report {
     report_title: string;
-    report_discord_name: string;
     report_details: string;
+    report_type: string;
     report_src: number;
     report_id: string;
   }
@@ -97,7 +97,7 @@
           <div>
             <p class="font-medium text-lg">{report.report_title}</p>
             <p class="text-sm text-gray-400">
-              {report.report_discord_name} - Player ID: {report.report_src}
+              {report.report_type} - Player ID: {report.report_src}
             </p>
           </div>
           <p
