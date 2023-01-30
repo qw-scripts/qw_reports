@@ -29,6 +29,34 @@
     }
   }
 
+  async function bringPlayer(reportSrc: number) {
+    if (isEnvBrowser()) return;
+
+    const response = await useFetchNui("actions/actionHandler", {
+      report_src: reportSrc,
+      action: "bring",
+    });
+
+    if (response === "ok") {
+      visibility.set({ show: false, type: "user" });
+      useFetchNui("hideUI");
+    }
+  }
+
+  async function gotoPlayer(reportSrc: number) {
+    if (isEnvBrowser()) return;
+
+    const response = await useFetchNui("actions/actionHandler", {
+      report_src: reportSrc,
+      action: "goto",
+    });
+
+    if (response === "ok") {
+      visibility.set({ show: false, type: "user" });
+      useFetchNui("hideUI");
+    }
+  }
+
   function openChat(reportID: string) {
     console.log(reportID);
     visibility.set({ show: true, type: "chat" });
@@ -93,11 +121,13 @@
           <div class="flex gap-2 items-center">
             <button
               class="border border-gray-700 bg-gray-800 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-800/80 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+              on:click={() => bringPlayer(report.report_src)}
             >
               Bring Player
             </button>
             <button
               class="border border-gray-700 bg-gray-800 px-3 py-2 rounded-md shadow-md font-medium hover:bg-gray-800/80 transition-all flex gap-2 items-center justify-center disabled:bg-gray-700/80 disabled:cursor-not-allowed text-sm"
+              on:click={() => gotoPlayer(report.report_src)}
             >
               Goto Player
             </button>

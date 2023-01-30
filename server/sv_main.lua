@@ -35,6 +35,30 @@ RegisterNetEvent('qw_reports:server:deleteReport', function(data)
     reports = tempTable
 end)
 
+RegisterNetEvent('qw_reports:server:actionHandler', function(reportingPlayerId, action)
+
+    if not reportingPlayerId or not action then return end
+
+    local src = source
+
+    if action == 'bring' then
+        local staffMember = GetPlayerPed(src)
+        local reportingPlayer = GetPlayerPed(reportingPlayerId)
+        local staffCoords = GetEntityCoords(staffMember)
+
+        SetEntityCoords(reportingPlayer, staffCoords.x, staffCoords.y, staffCoords.z, false, false, false, false)
+    else
+        local staffMember = GetPlayerPed(src)
+        local reportingPlayer = GetPlayerPed(reportingPlayerId)
+
+        local reportingPlayerCoords = GetEntityCoords(reportingPlayer)
+
+        SetEntityCoords(staffMember, reportingPlayerCoords.x, reportingPlayerCoords.y, reportingPlayerCoords.z, false,
+            false, false, false)
+    end
+
+end)
+
 lib.callback.register('qw_reports:server:getCurrentReports', function()
     return reports
 end)

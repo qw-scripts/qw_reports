@@ -1,3 +1,5 @@
+-- COMMANDS --
+
 RegisterCommand('report', function()
     SendNUIMessage({ action = 'setVisible', data = { show = true, type = 'user' } })
     SetNuiFocus(true, true)
@@ -11,6 +13,8 @@ RegisterCommand('view-reports', function()
         end
     end)
 end, false)
+
+-- REPORTING CALLBACKS --
 
 RegisterNUICallback('reports/CreateReport', function(data, cb)
     TriggerServerEvent('qw_reports:server:createReport', data)
@@ -29,6 +33,17 @@ RegisterNUICallback('reports/GetReports', function(_, cb)
         cb(reports)
     end)
 end)
+
+-- REPORTING ACTIONS CALLBACKS --
+
+RegisterNUICallback('actions/actionHandler', function(data, cb)
+    local reportingPlayer = data.report_src
+    local action = data.action
+    TriggerServerEvent('qw_reports:server:actionHandler', reportingPlayer, action)
+    cb('ok')
+end)
+
+-- GENERIC CALLBACKS --
 
 RegisterNUICallback('hideUI', function(_, cb)
     cb('ok')
