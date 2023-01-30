@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local function notify()
-    surgerppog(function(players)
+    playerpull(function(players)
         lib.callback('qw_reports:server:checkPerms', false, function(allowed)
             if allowed then
                 lib.notify({
@@ -51,7 +51,7 @@ RegisterNUICallback('hideUI', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-function surgerppog(players)
+function playerpull(players)
 	for k,v in ipairs(QBCore.Functions.GetPlayers()) do
 		players(v)
 	end
