@@ -3,7 +3,11 @@ local function notify()
     surgerppog(function(players)
         lib.callback('qw_reports:server:checkPerms', false, function(allowed)
             if allowed then
-                QBCore.Functions.Notify("There's a new report!", "error")
+                lib.notify({
+                    title = 'New Report',
+                    description = 'There\'s a new report!',
+                    type = 'success'
+                })
             end
         end)
     end)
@@ -24,7 +28,6 @@ end, false)
 
 RegisterNUICallback('reports/CreateReport', function(data, cb)
     TriggerServerEvent('qw_reports:server:createReport', data)
-
     cb("ok")
     if Config.Sendnotif then
         notify()
