@@ -32,8 +32,10 @@
   <div class="mt-2 flex flex-col gap-2 h-[80%] overflow-y-auto px-2">
     {#each chatMessages as message}
       <div>
-        <div class="bg-gray-700 p-1.5 rounded-lg shadow-md">
-          <span class="font-medium text-gray-300 mb-1 ml-1"
+        <div
+          class="bg-gray-700 p-1.5 rounded-lg shadow-md w-full overflow-hidden"
+        >
+          <span class="font-medium text-gray-300 mb-1 ml-1 break-all"
             >{message.sender}</span
           >
           <p class="text-sm text-gray-300">{message.text}</p>
